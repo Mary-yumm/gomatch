@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "553236846153",
+    "project_id": "gosharing-25c09",
+    "storage_bucket": "gosharing-25c09.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553236846153:android:5c428caf6f8a4183461198",
+        "android_client_info": {
+          "package_name": "com.ridesharing.gomatch"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCnonAWcC7Bi9ccxdCx2DL4Qj6UXUmCw4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
