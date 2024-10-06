@@ -1,4 +1,4 @@
-package com.example.gomatch
+package com.ridesharing.gomatch
 
 import io.flutter.embedding.android.FlutterActivity
 
