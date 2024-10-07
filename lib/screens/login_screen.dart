@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:gomatch/screens/signup_screen.dart';
 import 'package:gomatch/utils/colors.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
+  static const String idScreen = "LogIn";
 
   @override
   Widget build(BuildContext context) {
@@ -98,10 +100,17 @@ class LoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
-
-              
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            const SignupScreen()), // Create a route to SignupScreen
+                    (Route<dynamic> route) =>
+                        false, // Remove all previous routes
+                  );
+                },
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.white, // Set the text color to white
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gomatch/screens/home_screen.dart';
 import 'package:gomatch/screens/login_screen.dart';
 import 'package:gomatch/screens/signup_screen.dart';
 
@@ -19,7 +20,12 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SignupScreen(),
+      initialRoute: LoginScreen.idScreen,
+      routes: {
+        SignupScreen.idScreen:(context) => SignupScreen(),
+        LoginScreen.idScreen:(context)=> LoginScreen(),
+        HomeScreen.idScreen:(context)=>HomeScreen()
+      },
     );
   }
 }
