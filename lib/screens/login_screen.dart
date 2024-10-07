@@ -106,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            const SignupScreen()), // Create a route to SignupScreen
+                            SignupScreen()), // Create a route to SignupScreen
                     (Route<dynamic> route) =>
                         false, // Remove all previous routes
                   );
