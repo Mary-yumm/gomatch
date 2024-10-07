@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:gomatch/utils/colors.dart';
 import 'package:gomatch/providers/signup_service.dart';
 import 'package:gomatch/widgets/signup_text_field.dart';
+import 'package:gomatch/screens/login_screen.dart';
 
 class SignupScreen extends StatelessWidget {
   SignupScreen({super.key});
   static const String idScreen = "SignUp";
 
-  final TextEditingController nameTextEditingController = TextEditingController();
-  final TextEditingController emailTextEditingController = TextEditingController();
-  final TextEditingController phoneTextEditingController = TextEditingController();
-  final TextEditingController passwordTextEditingController = TextEditingController();
+  final TextEditingController nameTextEditingController =
+      TextEditingController();
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+  final TextEditingController phoneTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +80,17 @@ class SignupScreen extends StatelessWidget {
                       child: const Center(
                         child: Text(
                           "Create Account",
-                          style: TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),
+                          style: TextStyle(
+                              fontSize: 18.0, fontFamily: "Brand Bold"),
                         ),
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.pushNamedAndRemoveUntil(
-                            context, 'LoginScreen', (route) => false);
+                          context, LoginScreen.idScreen,
+                          (route) => false, // Use the correct route name
+                        );
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,

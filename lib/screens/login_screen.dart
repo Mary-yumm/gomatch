@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:gomatch/screens/signup_screen.dart';
 import 'package:gomatch/utils/colors.dart';
+import 'package:gomatch/screens/signup_screen.dart';
+import 'package:gomatch/providers/login_service.dart'; // Import the login service
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
   static const String idScreen = "LogIn";
+  final TextEditingController emailTextEditingController = TextEditingController();
+  final TextEditingController passwordTextEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,55 +29,47 @@ class LoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 1.0,
-                    ),
-                    const TextField(
+                    const SizedBox(height: 1.0),
+                    TextField(
+                      controller: emailTextEditingController,
                       keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Email",
                         labelStyle: TextStyle(
                           fontSize: 16.0,
-                          color: Colors.white, //label color
+                          color: Colors.white,
                         ),
                         hintStyle: TextStyle(
-                          color: Colors.white, //hint color
+                          color: Colors.white,
                           fontSize: 10.0,
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16.0,
-                        color: Colors.white, //Typed text color
+                        color: Colors.white,
                       ),
                     ),
-
-                    const SizedBox(
-                      height: 1.0,
-                    ),
-                    const TextField(
+                    const SizedBox(height: 1.0),
+                    TextField(
+                      controller: passwordTextEditingController,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: "Password",
                         labelStyle: TextStyle(
                           fontSize: 16.0,
-                          color: Colors.white, //Label color
+                          color: Colors.white,
                         ),
                         hintStyle: TextStyle(
-                          color: Colors.white, //hint text color
+                          color: Colors.white,
                           fontSize: 10.0,
                         ),
                       ),
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16.0,
-                        color: Colors.white, //Typed text color
+                        color: Colors.white,
                       ),
                     ),
-
-                    const SizedBox(
-                      height: 15.0,
-                    ), // space between containers
-
-                    // Updated to ElevatedButton
+                    const SizedBox(height: 15.0),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.secondaryColor,
@@ -88,13 +83,18 @@ class LoginScreen extends StatelessWidget {
                         child: const Center(
                           child: Text(
                             "Login",
-                            style: TextStyle(
-                                fontSize: 18.0, fontFamily: "Brand Bold"),
+                            style: TextStyle(fontSize: 18.0, fontFamily: "Brand Bold"),
                           ),
                         ),
                       ),
                       onPressed: () {
-                        //print("Login button clicked");
+                        if (!emailTextEditingController.text.contains("@")) {
+                          displayToastMessage("Email address is not valid.", context);
+                        } else if (passwordTextEditingController.text.isEmpty) {
+                          displayToastMessage("Password is mandatory.", context);
+                        } else {
+                          loginAndAuthenticateUser(context);
+                        }
                       },
                     ),
                   ],
@@ -104,24 +104,25 @@ class LoginScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SignupScreen()), // Create a route to SignupScreen
-                    (Route<dynamic> route) =>
-                        false, // Remove all previous routes
+                    MaterialPageRoute(builder: (context) => SignupScreen()),
+                    (Route<dynamic> route) => false,
                   );
                 },
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.white, // Set the text color to white
+                  foregroundColor: Colors.white,
                 ),
-                child: const Text(
-                  "Do not have an Account? Register Here.",
-                ),
+                child: const Text("Do not have an Account? Register Here."),
               ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  void loginAndAuthenticateUser(BuildContext context) async {
+    String email = emailTextEditingController.text.trim();
+    String password = passwordTextEditingController.text.trim();
+    await loginUser(context, email, password);  // Call login function
   }
 }
