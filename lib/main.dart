@@ -6,6 +6,7 @@ import 'package:gomatch/screens/history_screen.dart';
 import 'package:gomatch/screens/home_screen.dart';
 import 'package:gomatch/screens/login_screen.dart';
 import 'package:gomatch/components/side_menu.dart';
+import 'package:gomatch/screens/profile_screen.dart';
 import 'package:gomatch/screens/settings_screen.dart';
 import 'package:gomatch/screens/signup_screen.dart';
 import 'package:gomatch/utils/entry_point.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         FAQScreen.idScreen:(context)=>const FAQScreen(),
         HistoryScreen.idScreen:(context)=>const HistoryScreen(),
         SettingsScreen.idScreen:(context)=>const SettingsScreen(),
+        ProfileScreen.idScreen:(context)=>const ProfileScreen(),
 
       },
     );

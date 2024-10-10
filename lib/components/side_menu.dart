@@ -7,6 +7,7 @@ import 'package:gomatch/screens/driver_mode_screen.dart';
 import 'package:gomatch/screens/faq_screen.dart';
 import 'package:gomatch/screens/history_screen.dart';
 import 'package:gomatch/screens/home_screen.dart';
+import 'package:gomatch/screens/profile_screen.dart';
 import 'package:gomatch/screens/settings_screen.dart';
 import 'package:gomatch/utils/colors.dart';
 import 'package:gomatch/utils/rive_utils.dart';
@@ -33,7 +34,12 @@ class _SideMenuState extends State<SideMenu> {
         child: SafeArea(
           child: Column(
             children: [
-              const InfoCard(name: "Maryam Masood"),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, ProfileScreen.idScreen);
+                },
+                child:const InfoCard(name: "Maryam Masood"),
+              ),
               // Display side menu items
               ...sideMenus.map(
                 (menu) => SideMenuTile(
