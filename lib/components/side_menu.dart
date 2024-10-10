@@ -62,25 +62,29 @@ class _SideMenuState extends State<SideMenu> {
                       }
                     }
                     // Navigate to a relevant screen based on the menu title
-                    switch (menu.title) {
-                      case "Home":
-                        Navigator.pushNamed(context, HomeScreen.idScreen);
-                        break;
-                      case "Request History":
-                        Navigator.pushNamed(context, HistoryScreen.idScreen);
-                        break;
-                      case "Driver Mode":
-                        Navigator.pushNamed(context, DriverModeScreen.idScreen);
-                        break;
-                      case "Settings":
-                        Navigator.pushNamed(context, SettingsScreen.idScreen);
-                        break;
-                      case "FAQ":
-                        Navigator.pushNamed(context, FAQScreen.idScreen);
-                        break;
-                      default:
-                        break;
-                    }
+                    // Navigate to a relevant screen based on the menu title after a short delay
+                    Future.delayed(const Duration(milliseconds: 300), () {
+                      switch (menu.title) {
+                        case "Home":
+                          Navigator.pushNamed(context, HomeScreen.idScreen);
+                          break;
+                        case "Request History":
+                          Navigator.pushNamed(context, HistoryScreen.idScreen);
+                          break;
+                        case "Driver Mode":
+                          Navigator.pushNamed(
+                              context, DriverModeScreen.idScreen);
+                          break;
+                        case "Settings":
+                          Navigator.pushNamed(context, SettingsScreen.idScreen);
+                          break;
+                        case "FAQ":
+                          Navigator.pushNamed(context, FAQScreen.idScreen);
+                          break;
+                        default:
+                          break;
+                      }
+                    });
                   },
                   isActive: selectedMenu == menu,
                 ),

@@ -24,22 +24,22 @@ class SideMenuTile extends StatelessWidget {
         const Padding(
           padding: EdgeInsets.only(left: 24),
           child: Divider(
-            color: Colors.white24,
+            color: AppColors.white,
             height: 1,
           ),
         ),
         Stack(
           children: [
             AnimatedPositioned(
-              duration:const Duration(milliseconds: 300),
-
+              duration: const Duration(milliseconds: 300),
               height: 56,
-              width: isActive ? 288 : 0,
-              left:0,
+              width: isActive ? 288 : 0, // Set width based on active state
+              //alignment: Alignment.centerLeft, // Align the content to the left
               child: Container(
-                decoration: const BoxDecoration(
-                    color: AppColors.secondaryColor,
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
               ),
             ),
             ListTile(
