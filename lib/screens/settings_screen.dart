@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gomatch/utils/colors.dart';
 
-class HomeScreen extends StatelessWidget {
-  static const String idScreen = "HomeScreen";
+class SettingsScreen extends StatelessWidget {
+  static const String idScreen = "SettingsScreen";
 
-  const HomeScreen({super.key});
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Screen"),
+        
+        title: const Text("Settings"),
         backgroundColor: AppColors.primaryColor,
         foregroundColor: Colors.white,
         centerTitle: true,
@@ -21,10 +22,9 @@ class HomeScreen extends StatelessWidget {
           children: [
             SizedBox(height:40),
             Text(
-              "Welcome to the Home Screen!",
+              "Welcome to the Settings Screen!",
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            
           ],
         ),
       ),
