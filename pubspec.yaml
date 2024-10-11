@@ -41,7 +41,6 @@ flutter:
         - asset: assets/fonts/bolt-semibold.ttf
 
   assets:
-    - assets/map.png
     - assets/images/
     - assets/fonts/
 

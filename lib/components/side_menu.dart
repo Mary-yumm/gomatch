@@ -14,7 +14,10 @@ import 'package:gomatch/utils/rive_utils.dart';
 import 'package:rive/rive.dart';
 
 class SideMenu extends StatefulWidget {
-  const SideMenu({super.key});
+  final bool isMenuOpen; // New parameter to track if the menu is open
+
+  const SideMenu({super.key, required this.isMenuOpen}); // Add required parameter
+
   static const String idScreen = "SideMenu";
 
   @override
@@ -38,7 +41,7 @@ class _SideMenuState extends State<SideMenu> {
                 onTap: () {
                   Navigator.pushNamed(context, ProfileScreen.idScreen);
                 },
-                child:const InfoCard(name: "Maryam Masood"),
+                child: const InfoCard(name: "Name"),
               ),
               // Display side menu items
               ...sideMenus.map(
@@ -59,6 +62,7 @@ class _SideMenuState extends State<SideMenu> {
 
                     setState(() {
                       selectedMenu = menu;
+                      print("Selected Menu: ${selectedMenu.title}"); // Debug line
                     });
 
                     // Reset other menus' animation
@@ -68,7 +72,6 @@ class _SideMenuState extends State<SideMenu> {
                       }
                     }
                     // Navigate to a relevant screen based on the menu title
-                    // Navigate to a relevant screen based on the menu title after a short delay
                     Future.delayed(const Duration(milliseconds: 300), () {
                       switch (menu.title) {
                         case "Home":
@@ -102,3 +105,4 @@ class _SideMenuState extends State<SideMenu> {
     );
   }
 }
+

@@ -22,7 +22,7 @@ class _EntryPointState extends State<EntryPoint> {
       body: Stack(
         children: [
           // Main content (home screen)
-          const HomeScreen(),
+          HomeScreen(),
 
           // Side menu overlay
           AnimatedPositioned(
@@ -31,7 +31,7 @@ class _EntryPointState extends State<EntryPoint> {
             width: 288,
             left: isSideMenuClosed ? -288 : 0,
             height: MediaQuery.of(context).size.height,
-            child: const SideMenu(),
+            child: SideMenu(isMenuOpen: !isSideMenuClosed), // Pass menu state
           ),
 
           // Menu button with animated x-position

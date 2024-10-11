@@ -31,12 +31,12 @@ class SideMenuTile extends StatelessWidget {
         Stack(
           children: [
             AnimatedPositioned(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 200), // tiles row animation
               height: 56,
               width: isActive ? 288 : 0, // Set width based on active state
               //alignment: Alignment.centerLeft, // Align the content to the left
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),

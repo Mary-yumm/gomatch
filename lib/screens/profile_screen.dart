@@ -112,7 +112,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: AppColors.primaryColor,
       builder: (BuildContext context) {
         return NameBottomSheet(
-          currentName: 'Muhammad Rauf', // Pass current name
+          currentName: 'Name', // Pass current name
           onNameSelected: (newName) {
             setState(() {
               // Handle name change
@@ -152,7 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: AppColors.primaryColor,
       builder: (BuildContext context) {
         return EmailBottomSheet(
-          currentEmail: 'muhammadrauf1@yahoo.com', // Pass current email
+          currentEmail: 'abc@gmail.com', // Pass current email
           
           onEmailSelected: (newEmail) {
             setState(() {
