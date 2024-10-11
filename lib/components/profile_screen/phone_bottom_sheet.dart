@@ -45,7 +45,7 @@ class _PhoneNumberBottomSheetState extends State<PhoneNumberBottomSheet> {
           TextField(
             controller: _phoneController,
             keyboardType: TextInputType.phone,
-            decoration: const InputDecoration(labelText: 'Phone Number'),
+            decoration: const InputDecoration(labelText: 'Phone Number',labelStyle:TextStyle(color:Colors.white),),
             style: const TextStyle(color: Colors.white),
           ),
           const SizedBox(height: 20),

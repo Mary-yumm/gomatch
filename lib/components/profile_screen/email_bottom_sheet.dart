@@ -45,7 +45,7 @@ class _EmailBottomSheetState extends State<EmailBottomSheet> {
           TextField(
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            decoration: const InputDecoration(labelText: 'Email'),
+            decoration: const InputDecoration(labelText: 'Email',labelStyle:TextStyle(color:Colors.white),),
             style: const TextStyle(color: Colors.white),
           ),
           const SizedBox(height: 20),

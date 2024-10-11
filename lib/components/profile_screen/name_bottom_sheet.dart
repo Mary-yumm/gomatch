@@ -43,7 +43,7 @@ class _NameBottomSheetState extends State<NameBottomSheet> {
           const Text('Update Name', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color:Colors.white)),
           TextField(
             controller: _nameController,
-            decoration: const InputDecoration(labelText: 'Name'),
+            decoration: const InputDecoration(labelText: 'Name',labelStyle:TextStyle(color:Colors.white),),
             style: const TextStyle(color: Colors.white),
           ),
           const SizedBox(height: 20),

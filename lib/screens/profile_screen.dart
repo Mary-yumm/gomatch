@@ -36,7 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ProfileTile(
             icon: Icons.account_box,
             title: 'Name',
-            subtitle: 'Muhammad Rauf',
+            subtitle: 'Name',
             onTap: () {
               // Action when tile is clicked
               _openNameBottomSheet(context);
@@ -54,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ProfileTile(
             icon: Icons.email,
             title: 'Email',
-            subtitle: 'muhammadrauf1@yahoo.com',
+            subtitle: 'abc@gmail.com',
             onTap: () {
               // Action when tile is clicked
               _openEmailBottomSheet(context);

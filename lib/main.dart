@@ -5,11 +5,9 @@ import 'package:gomatch/screens/faq_screen.dart';
 import 'package:gomatch/screens/history_screen.dart';
 import 'package:gomatch/screens/home_screen.dart';
 import 'package:gomatch/screens/login_screen.dart';
-import 'package:gomatch/components/side_menu.dart';
 import 'package:gomatch/screens/profile_screen.dart';
 import 'package:gomatch/screens/settings_screen.dart';
 import 'package:gomatch/screens/signup_screen.dart';
-import 'package:gomatch/utils/entry_point.dart';
 import 'package:gomatch/utils/firebase_ref.dart'; // Import usersRef from firebase_ref.dart
 
 void main() async {

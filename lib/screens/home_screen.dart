@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gomatch/components/side_menu.dart';
+import 'package:gomatch/components/side_drawer/side_menu.dart';
 import 'package:gomatch/models/menu_btn.dart';  // Import MenuBtn
 import 'package:gomatch/utils/colors.dart';
 
