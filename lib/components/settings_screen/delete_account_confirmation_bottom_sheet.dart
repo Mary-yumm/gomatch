@@ -26,14 +26,14 @@ class DeleteAccountConfirmationBottomSheet {
                     onPressed: () {
                       Navigator.pop(context); // Close the bottom sheet
                     },
-                    child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+                    child: const Text('Cancel', style: TextStyle(color: AppColors.secondaryColor)),
                   ),
                   TextButton(
                     onPressed: () {
                       // Handle account deletion
                       Navigator.pop(context); // Close the bottom sheet
                     },
-                    child: const Text('Delete Account', style: TextStyle(color: Colors.white)),
+                    child: const Text('Delete Account', style: TextStyle(color: AppColors.secondaryColor)),
                   ),
                 ],
               ),

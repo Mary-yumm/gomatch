@@ -26,14 +26,14 @@ class LogoutConfirmationBottomSheet {
                     onPressed: () {
                       Navigator.pop(context); // Close the bottom sheet
                     },
-                    child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+                    child: const Text('Cancel', style: TextStyle(color: AppColors.secondaryColor)),
                   ),
                   TextButton(
                     onPressed: () {
                       // Handle logout
                       Navigator.pop(context); // Close the bottom sheet
                     },
-                    child: const Text('Logout', style: TextStyle(color: Colors.white)),
+                    child: const Text('Logout', style: TextStyle(color: AppColors.secondaryColor)),
                   ),
                 ],
               ),

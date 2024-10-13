@@ -17,14 +17,14 @@ class PaymentMethodsBottomSheet {
             children: [
               Text('Payment Methods', style: TextStyle(fontSize: 18, color: Colors.white)),
               ListTile(
-                title: const Text('Add New Card', style: TextStyle(color: Colors.white)),
+                title: const Text('Add New Card', style: TextStyle(color: AppColors.secondaryColor)),
                 onTap: () {
                   // Handle adding new card
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: const Text('Remove Card', style: TextStyle(color: Colors.white)),
+                title: const Text('Remove Card', style: TextStyle(color: AppColors.secondaryColor)),
                 onTap: () {
                   // Handle removing a card
                   Navigator.pop(context);

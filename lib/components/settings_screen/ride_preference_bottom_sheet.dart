@@ -17,14 +17,14 @@ class RidePreferencesBottomSheet {
             children: [
               Text('Choose Ride Preference', style: TextStyle(fontSize: 18, color: Colors.white)),
               ListTile(
-                title: const Text('Economy', style: TextStyle(color: Colors.white)),
+                title: const Text('Economy', style: TextStyle(color: AppColors.secondaryColor)),
                 onTap: () {
                   // Handle selection
                   Navigator.pop(context);
                 },
               ),
               ListTile(
-                title: const Text('Luxury', style: TextStyle(color: Colors.white)),
+                title: const Text('Luxury', style: TextStyle(color: AppColors.secondaryColor)),
                 onTap: () {
                   // Handle selection
                   Navigator.pop(context);

@@ -20,7 +20,7 @@ class PrivacyPolicyBottomSheet {
               const Text('Your privacy is important to us.', style: TextStyle(color: Colors.white)),
               const SizedBox(height: 20),
               TextButton(
-                child: const Text('Close', style: TextStyle(color: Colors.white)),
+                child: const Text('Close', style: TextStyle(color: AppColors.secondaryColor)),
                 onPressed: () {
                   Navigator.pop(context);
                 },

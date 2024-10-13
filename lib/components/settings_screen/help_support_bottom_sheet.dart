@@ -19,7 +19,7 @@ class HelpSupportBottomSheet {
               const Text('Contact us at support@yourapp.com for assistance.', style: TextStyle(color: Colors.white)),
               const SizedBox(height: 20),
               TextButton(
-                child: const Text('Close', style: TextStyle(color: Colors.white)),
+                child: const Text('Close', style: TextStyle(color: AppColors.secondaryColor)),
                 onPressed: () {
                   Navigator.pop(context);
                 },

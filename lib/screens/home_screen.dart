@@ -125,7 +125,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     "Available Cars",
                                     style: TextStyle(
                                         fontSize: 24,
-                                        fontWeight: FontWeight.bold),
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.primaryColor
+                                        ),
+                                        
                                   ),
                                   const SizedBox(height: 20),
 
