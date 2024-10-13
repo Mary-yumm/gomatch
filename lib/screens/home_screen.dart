@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, scrollController) {
                         return Container(
                           decoration: const BoxDecoration(
-                            color: Colors.white,
+                            color: AppColors.lightPrimary,
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(20),
                             ),
@@ -137,6 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   DropdownButton<String>(
                                     isExpanded: true,
+                                    dropdownColor: AppColors.lightPrimary,
                                     items: <String>['Location A', 'Location B']
                                         .map((String value) {
                                       return DropdownMenuItem<String>(
@@ -146,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     }).toList(),
                                     onChanged: (_) {},
                                   ),
+                                  const Divider(color:AppColors.primaryColor),
                                   const SizedBox(height: 10),
                                   const Text(
                                     "Select Destination",
@@ -154,6 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   DropdownButton<String>(
                                     isExpanded: true,
+                                    dropdownColor: AppColors.lightPrimary,
                                     items: <String>[
                                       'Destination A',
                                       'Destination B'
@@ -165,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     }).toList(),
                                     onChanged: (_) {},
                                   ),
+                                  const Divider(color:AppColors.primaryColor),
                                   const SizedBox(height: 20),
                                   const Text(
                                     "Available Cars",

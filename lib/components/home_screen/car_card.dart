@@ -118,7 +118,7 @@ class CarCard extends StatelessWidget {
                     ),
                     child: const Text(
                       "Book Ride",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.black),
                     ),
                   ),
                 ),
