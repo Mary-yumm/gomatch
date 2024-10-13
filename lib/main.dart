@@ -29,17 +29,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      initialRoute: HomeScreen.idScreen,
+      initialRoute: LoginScreen.idScreen,
       routes: {
-        SignupScreen.idScreen: (context) => SignupScreen(),
         LoginScreen.idScreen: (context) => LoginScreen(),
+        SignupScreen.idScreen: (context) => SignupScreen(),
         HomeScreen.idScreen: (context) => HomeScreen(),
-        DriverModeScreen.idScreen: (context)=>const DriverModeScreen(),
-        FAQScreen.idScreen:(context)=>const FAQScreen(),
-        HistoryScreen.idScreen:(context)=>const HistoryScreen(),
-        SettingsScreen.idScreen:(context)=>const SettingsScreen(),
-        ProfileScreen.idScreen:(context)=>const ProfileScreen(),
-
+        DriverModeScreen.idScreen: (context) => const DriverModeScreen(),
+        FAQScreen.idScreen: (context) => const FAQScreen(),
+        HistoryScreen.idScreen: (context) => const HistoryScreen(),
+        SettingsScreen.idScreen: (context) => const SettingsScreen(),
+        ProfileScreen.idScreen: (context) => const ProfileScreen(),
       },
     );
   }

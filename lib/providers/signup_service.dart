@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gomatch/screens/home_screen.dart';
+import 'package:gomatch/screens/login_screen.dart';
 import 'package:gomatch/utils/firebase_ref.dart'; // Assuming you have defined usersRef here
 
 class SignupService {
@@ -39,7 +40,7 @@ class SignupService {
           _displayToastMessage("Congratulations, your account has been created.", context);
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => LoginScreen()),
             (route) => false,
           );
         } else {
