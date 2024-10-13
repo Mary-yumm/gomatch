@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gomatch/components/side_drawer/side_menu.dart';
 import 'package:gomatch/models/menu_btn.dart';
 import 'package:gomatch/utils/colors.dart';
+import 'package:gomatch/components/home_screen/car_card.dart'; // Import the CarCard widget
 
 class HomeScreen extends StatefulWidget {
   static const String idScreen = "HomeScreen";
@@ -172,11 +173,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   const SizedBox(height: 10),
 
-                                  // List of cars available with onTap for details
-                                  _buildCarCard(
-                                    context,
-                                    setModalState:
-                                        setModalState, // Pass setModalState to manage state inside the modal
+                                  // Using CarCard widget for each car
+                                  CarCard(
                                     index: 0,
                                     carDetails: "10-Seater, Male & Female",
                                     pickupTime: "9:30 AM",
@@ -185,11 +183,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     isKycVerified: true,
                                     malePassengers: 5,
                                     femalePassengers: 5,
+                                    selectedCarIndex: selectedCarIndex,
+                                    onCardTap: (int index) {
+                                      setModalState(() {
+                                        selectedCarIndex =
+                                            selectedCarIndex == index
+                                                ? null
+                                                : index;
+                                      });
+                                    },
                                   ),
-                                  _buildCarCard(
-                                    context,
-                                    setModalState:
-                                        setModalState, // Pass setModalState to manage state inside the modal
+                                  CarCard(
                                     index: 1,
                                     carDetails: "10-Seater, Female Only",
                                     pickupTime: "11:00 AM",
@@ -198,6 +202,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                     isKycVerified: true,
                                     malePassengers: 0,
                                     femalePassengers: 8,
+                                    selectedCarIndex: selectedCarIndex,
+                                    onCardTap: (int index) {
+                                      setModalState(() {
+                                        selectedCarIndex =
+                                            selectedCarIndex == index
+                                                ? null
+                                                : index;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
@@ -213,135 +226,6 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         );
       },
-    );
-  }
-
-  // Car Card Widget
-  Widget _buildCarCard(BuildContext context,
-      {required int index,
-      required String carDetails,
-      required String pickupTime,
-      required String departureTime,
-      required String driverPhone,
-      required bool isKycVerified,
-      required int malePassengers,
-      required int femalePassengers,
-      required StateSetter setModalState}) {
-    // Add setModalState here
-    return GestureDetector(
-      onTap: () {
-        setModalState(() {
-          // Toggle the selected car
-          selectedCarIndex = selectedCarIndex == index ? null : index;
-        });
-      },
-      child: Card(
-        color: AppColors.primaryColor, // Set card color to primary color
-        margin: const EdgeInsets.only(bottom: 10),
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  const Icon(Icons.directions_car,
-                      size: 40,
-                      color:
-                          AppColors.secondaryColor), // Secondary color for icon
-                  const SizedBox(width: 10),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(carDetails,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white)), // White text
-                      const SizedBox(height: 5),
-                      Text("Pickup: $pickupTime",
-                          style: const TextStyle(color: Colors.white)),
-                      Text("Departs: $departureTime",
-                          style: const TextStyle(color: Colors.white)),
-                    ],
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-
-              // Show extra details if this car is selected
-              if (selectedCarIndex == index) ...[
-                const Divider(color: Colors.white), // Divider with white color
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Driver phone number and icon
-                    Row(
-                      children: [
-                        const Icon(Icons.phone, color: Colors.green),
-                        const SizedBox(width: 5),
-                        Text(driverPhone,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white)),
-                      ],
-                    ),
-                    // KYC verification badge
-                    Row(
-                      children: [
-                        const Icon(Icons.verified,
-                            color: Colors.green, size: 20),
-                        const SizedBox(width: 5),
-                        Text(
-                          isKycVerified ? "Verified" : "Unverified",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              color: isKycVerified
-                                  ? Colors.green
-                                  : Colors.redAccent),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-
-                // Show male and female passenger details
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Male: $malePassengers",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    Text(
-                      "Female: $femalePassengers",
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-
-                // Book Ride button
-                Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Implement your book ride logic here
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          AppColors.secondaryColor, // Button in secondary color
-                    ),
-                    child: const Text(
-                      "Book Ride",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
