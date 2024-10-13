@@ -106,18 +106,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _openNameBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled:
+          true, // This allows the bottom sheet to move when the keyboard appears
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
       backgroundColor: AppColors.primaryColor,
       builder: (BuildContext context) {
-        return NameBottomSheet(
-          currentName: 'Name', // Pass current name
-          onNameSelected: (newName) {
-            setState(() {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom, // Adjust bottom padding for keyboard
+          ),
+          child: NameBottomSheet(
+            currentName: 'Name', // Pass current name
+            onNameSelected: (newName) {
               // Handle name change
-            });
-          },
+            },
+          ),
         );
       },
     );
@@ -126,18 +133,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _openPhoneNumberBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled:
+          true, // Enables scrolling to move up when keyboard appears
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
       backgroundColor: AppColors.primaryColor,
       builder: (BuildContext context) {
-        return PhoneNumberBottomSheet(
-          currentPhoneNumber: '923038018095', // Pass current phone number
-          onPhoneNumberSelected: (newPhone) {
-            setState(() {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom, // Adjust bottom padding for keyboard
+          ),
+          child: PhoneNumberBottomSheet(
+            currentPhoneNumber: '923038018095', // Pass current phone number
+            onPhoneNumberSelected: (newPhone) {
               // Handle phone number change
-            });
-          },
+            },
+          ),
         );
       },
     );
@@ -146,19 +160,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void _openEmailBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled:
+          true, // This allows the bottom sheet to move when the keyboard appears
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
       backgroundColor: AppColors.primaryColor,
       builder: (BuildContext context) {
-        return EmailBottomSheet(
-          currentEmail: 'abc@gmail.com', // Pass current email
-          
-          onEmailSelected: (newEmail) {
-            setState(() {
-              // Update the email here
-            });
-          },
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context)
+                .viewInsets
+                .bottom, // Adjust bottom padding when keyboard is open
+          ),
+          child: EmailBottomSheet(
+            currentEmail: 'abc@gmail.com', // Pass current email
+            onEmailSelected: (newEmail) {
+              setState(() {
+                // Update the email here
+              });
+            },
+          ),
         );
       },
     );

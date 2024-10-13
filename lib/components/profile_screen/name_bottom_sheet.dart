@@ -10,7 +10,7 @@ class NameBottomSheet extends StatefulWidget {
     super.key,
     required this.currentName,
     required this.onNameSelected,
-    this.emailTextColor=Colors.white,
+    this.emailTextColor = Colors.white,
   });
 
   @override
@@ -35,31 +35,40 @@ class _NameBottomSheetState extends State<NameBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Text('Update Name', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color:Colors.white)),
-          TextField(
-            controller: _nameController,
-            decoration: const InputDecoration(labelText: 'Name',labelStyle:TextStyle(color:Colors.white),),
-            style: const TextStyle(color: Colors.white),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              widget.onNameSelected(_nameController.text);
-              Navigator.pop(context);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.secondaryColor,
-              minimumSize: const Size(double.infinity, 50),
-              foregroundColor: Colors.black,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Update Name',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white)),
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: 'Name',
+                labelStyle: TextStyle(color: Colors.white),
+              ),
+              style: const TextStyle(color: Colors.white),
             ),
-            child: const Text('Update'),
-          ),
-        ],
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                widget.onNameSelected(_nameController.text);
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.secondaryColor,
+                minimumSize: const Size(double.infinity, 50),
+                foregroundColor: Colors.black,
+              ),
+              child: const Text('Update'),
+            ),
+          ],
+        ),
       ),
     );
   }
