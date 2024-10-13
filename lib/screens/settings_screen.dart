@@ -39,7 +39,7 @@ class SettingsScreen extends StatelessWidget {
           SettingsTile(
             icon: Icons.payment,
             title: 'Payment Methods',
-            subtitle: 'Visa, MasterCard',
+            subtitle: 'Debit Card, EasyPaisa, JazzCash',
             onTap: () {
               PaymentMethodsBottomSheet.show(context);
             },
