@@ -31,7 +31,17 @@ class _SideMenuState extends State<SideMenu> {
         child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 50),
+              const SizedBox(height: 10),
+              // Add "GoMatch" title
+              const Text(
+                "GoMatch",
+                style: TextStyle(
+                  fontSize: 24, // Change font size as needed
+                  fontWeight: FontWeight.bold, // Make it bold
+                  color: AppColors.secondaryColor, // Change text color if needed
+                ),
+              ),
+              const SizedBox(height: 20), // Space between title and menu items
               // Display side menu items
               Expanded(
                 child: ListView.builder(
