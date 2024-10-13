@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FloatingActionButton(
               onPressed: () => _showCarpoolBottomSheet(context),
               backgroundColor: AppColors.primaryColor,
-              child: const Icon(Icons.directions_car, color: Colors.white),
+              child: const Icon(Icons.directions_car, color: AppColors.secondaryColor),
             ),
           ),
         ],
