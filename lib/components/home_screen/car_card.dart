@@ -11,10 +11,11 @@ class CarCard extends StatelessWidget {
   final int malePassengers;
   final int femalePassengers;
   final int? selectedCarIndex;
+  final int available;
   final Function(int) onCardTap;
 
   const CarCard({
-    Key? key,
+    super.key,
     required this.index,
     required this.carDetails,
     required this.pickupTime,
@@ -24,8 +25,9 @@ class CarCard extends StatelessWidget {
     required this.malePassengers,
     required this.femalePassengers,
     required this.selectedCarIndex,
+    required this.available,
     required this.onCardTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,8 @@ class CarCard extends StatelessWidget {
                     children: [
                       Text(carDetails,
                           style: const TextStyle(
-                              fontWeight: FontWeight.w600, color: Colors.white)),
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
                       const SizedBox(height: 5),
                       Text("Pickup: $pickupTime",
                           style: const TextStyle(color: Colors.white)),
@@ -60,7 +63,6 @@ class CarCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-
               if (selectedCarIndex == index) ...[
                 const Divider(color: Colors.white),
                 Row(
@@ -103,6 +105,10 @@ class CarCard extends StatelessWidget {
                     ),
                     Text(
                       "Female: $femalePassengers",
+                      style: const TextStyle(color: Colors.white),
+                    ),
+                    Text(
+                      "Available Seats: $available",
                       style: const TextStyle(color: Colors.white),
                     ),
                   ],

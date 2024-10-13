@@ -189,8 +189,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     driverPhone: "+123456789",
                                     isKycVerified: true,
                                     malePassengers: 5,
-                                    femalePassengers: 5,
+                                    femalePassengers: 3,
                                     selectedCarIndex: selectedCarIndex,
+                                    available: 2,
                                     onCardTap: (int index) {
                                       setModalState(() {
                                         selectedCarIndex =
@@ -208,7 +209,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     driverPhone: "+987654321",
                                     isKycVerified: true,
                                     malePassengers: 0,
-                                    femalePassengers: 8,
+                                    femalePassengers: 7,
+                                    available:3,
                                     selectedCarIndex: selectedCarIndex,
                                     onCardTap: (int index) {
                                       setModalState(() {
