@@ -1,11 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:gomatch/components/side_drawer/side_menu.dart';
 import 'package:gomatch/models/menu_btn.dart';
 import 'package:gomatch/utils/colors.dart';
 import 'package:gomatch/components/home_screen/car_card.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart'; // Import the CarCard widget
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String idScreen = "HomeScreen";
@@ -30,6 +29,10 @@ class _HomeScreenState extends State<HomeScreen> {
     zoom: 14.4746,
   );
 
+  // Variables to track button position
+  double buttonX = 295; // Initial horizontal position
+  double buttonY = 600; // Initial vertical position
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,13 +42,13 @@ class _HomeScreenState extends State<HomeScreen> {
           GoogleMap(
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
-            initialCameraPosition:_kGooglePlex,
+            initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
-
             },
           ),
+
           AnimatedPositioned(
             duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
@@ -68,15 +71,33 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // Floating action button for bottom sheet
+          // Draggable Floating Action Button
           Positioned(
-            bottom: 20,
-            right: 20,
-            child: FloatingActionButton(
-              onPressed: () => _showCarpoolBottomSheet(context),
-              backgroundColor: AppColors.primaryColor,
-              child: const Icon(Icons.directions_car,
-                  color: AppColors.secondaryColor),
+            left: buttonX,
+            top: buttonY,
+            child: Draggable(
+              feedback: Material(
+                child: FloatingActionButton(
+                  onPressed: () => _showCarpoolBottomSheet(context),
+                  backgroundColor: AppColors.primaryColor,
+                  child: const Icon(Icons.directions_car,
+                      color: AppColors.secondaryColor),
+                ),
+              ),
+              childWhenDragging: Container(), // Show nothing while dragging
+              child: FloatingActionButton(
+                onPressed: () => _showCarpoolBottomSheet(context),
+                backgroundColor: AppColors.primaryColor,
+                child: const Icon(Icons.directions_car,
+                    color: AppColors.secondaryColor),
+              ),
+              onDragEnd: (details) {
+                // Update the position of the button when drag ends
+                setState(() {
+                  buttonX = details.offset.dx - 28; // Adjust to center the button
+                  buttonY = details.offset.dy - 28; // Adjust to center the button
+                });
+              },
             ),
           ),
         ],
