@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:gomatch/components/side_drawer/side_menu.dart';
 import 'package:gomatch/models/menu_btn.dart';
 import 'package:gomatch/utils/colors.dart';
@@ -24,6 +25,47 @@ class _HomeScreenState extends State<HomeScreen> {
       Completer<GoogleMapController>();
   late GoogleMapController newGoogleMapController;
 
+  //For getting user's current location
+  late Position currentPosition;
+
+  // Check and request location permissions
+  Future<void> _checkLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print('Location permissions are denied');
+        return; // Exit or show an error message
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      print('Location permissions are permanently denied');
+      return; // Exit or show an error message
+    }
+
+    locatePosition(); // Call your location function if permissions are granted
+  }
+
+  void locatePosition() async {
+    await _checkLocationPermission(); // Ensure permissions are checked first
+
+    try {
+      Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+      setState(() {
+        currentPosition = position;
+        LatLng latLatPosition = LatLng(position.latitude, position.longitude);
+        CameraPosition cameraPosition =
+            CameraPosition(target: latLatPosition, zoom: 14);
+        newGoogleMapController
+            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+      });
+    } catch (e) {
+      print(e); // Handle error, e.g., permission denied
+    }
+  }
+
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
@@ -43,9 +85,17 @@ class _HomeScreenState extends State<HomeScreen> {
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
+            //for user's current loc
+            myLocationEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
+
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
+
+              //for user's current loc
+              locatePosition();
             },
           ),
 
@@ -94,8 +144,10 @@ class _HomeScreenState extends State<HomeScreen> {
               onDragEnd: (details) {
                 // Update the position of the button when drag ends
                 setState(() {
-                  buttonX = details.offset.dx - 28; // Adjust to center the button
-                  buttonY = details.offset.dy - 28; // Adjust to center the button
+                  buttonX =
+                      details.offset.dx - 28; // Adjust to center the button
+                  buttonY =
+                      details.offset.dy - 28; // Adjust to center the button
                 });
               },
             ),
@@ -105,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // Function to show the bottom sheet
+  // Function to show the bottom sheet of Car Button
   void _showCarpoolBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
