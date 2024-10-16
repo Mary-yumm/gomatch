@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:gomatch/components/side_drawer/side_menu.dart';
 import 'package:gomatch/models/menu_btn.dart';
 import 'package:gomatch/utils/colors.dart';
-import 'package:gomatch/components/home_screen/car_card.dart'; // Import the CarCard widget
+import 'package:gomatch/components/home_screen/car_card.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart'; // Import the CarCard widget
 
 class HomeScreen extends StatefulWidget {
   static const String idScreen = "HomeScreen";
@@ -18,19 +21,31 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isSideMenuClosed = true;
   int? selectedCarIndex; // Track which car is selected
 
+  final Completer<GoogleMapController> _controllerGoogleMap =
+      Completer<GoogleMapController>();
+  late GoogleMapController newGoogleMapController;
+
+  static const CameraPosition _kGooglePlex = CameraPosition(
+    target: LatLng(37.42796133580664, -122.085749655962),
+    zoom: 14.4746,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/map.png',
-              fit: BoxFit.cover,
-            ),
-          ),
+          GoogleMap(
+            mapType: MapType.normal,
+            myLocationButtonEnabled: true,
+            initialCameraPosition:_kGooglePlex,
+            onMapCreated: (GoogleMapController controller) {
+              _controllerGoogleMap.complete(controller);
+              newGoogleMapController = controller;
 
+            },
+          ),
           AnimatedPositioned(
             duration: const Duration(milliseconds: 200),
             curve: Curves.fastOutSlowIn,
@@ -60,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
             child: FloatingActionButton(
               onPressed: () => _showCarpoolBottomSheet(context),
               backgroundColor: AppColors.primaryColor,
-              child: const Icon(Icons.directions_car, color: AppColors.secondaryColor),
+              child: const Icon(Icons.directions_car,
+                  color: AppColors.secondaryColor),
             ),
           ),
         ],
@@ -126,9 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
-                                        color: AppColors.primaryColor
-                                        ),
-                                        
+                                        color: AppColors.primaryColor),
                                   ),
                                   const SizedBox(height: 20),
 
@@ -150,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     }).toList(),
                                     onChanged: (_) {},
                                   ),
-                                  const Divider(color:AppColors.primaryColor),
+                                  const Divider(color: AppColors.primaryColor),
                                   const SizedBox(height: 10),
                                   const Text(
                                     "Select Destination",
@@ -171,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     }).toList(),
                                     onChanged: (_) {},
                                   ),
-                                  const Divider(color:AppColors.primaryColor),
+                                  const Divider(color: AppColors.primaryColor),
                                   const SizedBox(height: 20),
                                   const Text(
                                     "Available Cars",
@@ -210,7 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     isKycVerified: true,
                                     malePassengers: 0,
                                     femalePassengers: 7,
-                                    available:3,
+                                    available: 3,
                                     selectedCarIndex: selectedCarIndex,
                                     onCardTap: (int index) {
                                       setModalState(() {
