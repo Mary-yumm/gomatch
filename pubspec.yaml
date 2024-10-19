@@ -20,6 +20,8 @@ dependencies:
   rive: ^0.13.14
   rive_animated_icon: ^2.0.1
   geolocator: ^13.0.1
+  http: ^1.2.2
+  provider: ^6.1.2
 
 
 

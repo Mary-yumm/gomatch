@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:gomatch/Assistants/assistantMethods.dart';
 import 'package:gomatch/components/side_drawer/side_menu.dart';
 import 'package:gomatch/models/menu_btn.dart';
+import 'package:gomatch/providers/appData.dart';
 import 'package:gomatch/utils/colors.dart';
 import 'package:gomatch/components/home_screen/car_card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String idScreen = "HomeScreen";
@@ -53,11 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
+
+      //geocoding
+      String address =
+          await AssistantMethods.searchCoordinateAddress(position, context);
+      print("This is your Address :: " + address);
       setState(() {
         currentPosition = position;
         LatLng latLatPosition = LatLng(position.latitude, position.longitude);
         CameraPosition cameraPosition =
-            CameraPosition(target: latLatPosition, zoom: 14);
+            CameraPosition(target: latLatPosition, zoom: 18);
         newGoogleMapController
             .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
       });
@@ -68,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
+    zoom: 18,
+    //zoom: 14.4746,
   );
 
   // Variables to track button position
@@ -208,7 +217,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 10),
+                                  const SizedBox(height: 10),                                 
 
                                   const Text(
                                     "Available Cars",
@@ -218,6 +227,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: AppColors.primaryColor),
                                   ),
                                   const SizedBox(height: 20),
+
+                                  // Display user's address (or "Add home" if not set)
+                                  Text(
+                                    (Provider.of<AppData>(context)
+                                                .pickUpLocation !=
+                                            null)
+                                        ? Provider.of<AppData>(context)
+                                            .pickUpLocation!
+                                            .placeName
+                                        : "Home Address",
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 10),
 
                                   // Dropdowns for City and Destination
                                   const Text(
