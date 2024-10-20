@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:gomatch/Assistants/assistantMethods.dart';
+import 'package:gomatch/components/home_screen/search_screen.dart';
 import 'package:gomatch/components/side_drawer/side_menu.dart';
 import 'package:gomatch/models/menu_btn.dart';
 import 'package:gomatch/providers/appData.dart';
@@ -23,6 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isSideMenuClosed = true;
   int? selectedCarIndex; // Track which car is selected
+  String currAddress = '';
+  String homeAddress = '';
+  String workAddress = '';
 
   final Completer<GoogleMapController> _controllerGoogleMap =
       Completer<GoogleMapController>();
@@ -31,7 +35,11 @@ class _HomeScreenState extends State<HomeScreen> {
   //For getting user's current location
   late Position currentPosition;
 
-  // Check and request location permissions
+  // Variables to track user's previous location (for distance threshold)
+  double previousLatitude = 0.0;
+  double previousLongitude = 0.0;
+
+  // Function to check and request location permissions
   Future<void> _checkLocationPermission() async {
     LocationPermission permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
@@ -50,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
     locatePosition(); // Call your location function if permissions are granted
   }
 
+  // Function to locate user's current position and handle geocoding
   void locatePosition() async {
     await _checkLocationPermission(); // Ensure permissions are checked first
 
@@ -57,27 +66,44 @@ class _HomeScreenState extends State<HomeScreen> {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
 
-      //geocoding
-      String address =
-          await AssistantMethods.searchCoordinateAddress(position, context);
-      print("This is your Address :: " + address);
-      setState(() {
-        currentPosition = position;
-        LatLng latLatPosition = LatLng(position.latitude, position.longitude);
-        CameraPosition cameraPosition =
-            CameraPosition(target: latLatPosition, zoom: 18);
-        newGoogleMapController
-            .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-      });
+      // Only geocode if moved more than 100 meters from the previous position
+      double distance = Geolocator.distanceBetween(previousLatitude,
+          previousLongitude, position.latitude, position.longitude);
+      if (distance > 100) {
+        // Check if the address is already cached
+        String? cachedAddress =
+            await AssistantMethods.getCachedAddress(position);
+        if (cachedAddress != null) {
+          setState(() {
+            currentPosition = position;
+            currAddress = cachedAddress;
+          });
+          return;
+        }
+
+        // Geocode the position if not cached
+        String fetchedAddress =
+            await AssistantMethods.searchCoordinateAddress(position, context);
+        AssistantMethods.cacheAddress(
+            position, fetchedAddress); // Cache the result
+
+        setState(() {
+          currentPosition = position;
+          currAddress = fetchedAddress;
+        });
+
+        // Update previous location after geocoding
+        previousLatitude = position.latitude;
+        previousLongitude = position.longitude;
+      }
     } catch (e) {
       print(e); // Handle error, e.g., permission denied
     }
   }
 
   static const CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 18,
-    //zoom: 14.4746,
+    target: LatLng(33.6844, 73.0479), // Coordinates for Islamabad, Pakistan
+    zoom: 10, // Adjust zoom level as per your needs
   );
 
   // Variables to track button position
@@ -177,11 +203,13 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (BuildContext context) {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setModalState) {
+            bool showCarDetails = false; // Toggler for switching views
+
             return GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: () {
                 Navigator.of(context)
-                    .pop(); // Close bottom sheet when tapping outside
+                    .pop(); // Close bottom sheet on outside tap
               },
               child: Stack(
                 children: [
@@ -195,7 +223,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, scrollController) {
                         return Container(
                           decoration: const BoxDecoration(
-                            color: AppColors.lightPrimary,
+                            color: Colors.white,
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(20),
                             ),
@@ -217,121 +245,71 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ),
                                     ),
                                   ),
-                                  const SizedBox(height: 10),                                 
-
-                                  const Text(
-                                    "Available Cars",
-                                    style: TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.primaryColor),
-                                  ),
-                                  const SizedBox(height: 20),
-
-                                  // Display user's address (or "Add home" if not set)
-                                  Text(
-                                    (Provider.of<AppData>(context)
-                                                .pickUpLocation !=
-                                            null)
-                                        ? Provider.of<AppData>(context)
-                                            .pickUpLocation!
-                                            .placeName
-                                        : "Home Address",
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black,
-                                    ),
-                                  ),
                                   const SizedBox(height: 10),
 
-                                  // Dropdowns for City and Destination
-                                  const Text(
-                                    "Pickup Location",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                  ),
-                                  DropdownButton<String>(
-                                    isExpanded: true,
-                                    dropdownColor: AppColors.lightPrimary,
-                                    items: <String>['Location A', 'Location B']
-                                        .map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (_) {},
-                                  ),
-                                  const Divider(color: AppColors.primaryColor),
-                                  const SizedBox(height: 10),
-                                  const Text(
-                                    "Select Destination",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w600),
-                                  ),
-                                  DropdownButton<String>(
-                                    isExpanded: true,
-                                    dropdownColor: AppColors.lightPrimary,
-                                    items: <String>[
-                                      'Destination A',
-                                      'Destination B'
-                                    ].map((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                    onChanged: (_) {},
-                                  ),
-                                  const Divider(color: AppColors.primaryColor),
-                                  const SizedBox(height: 20),
-                                  const Text(
-                                    "Available Cars",
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(height: 10),
-
-                                  // Using CarCard widget for each car
-                                  CarCard(
-                                    index: 0,
-                                    carDetails: "10-Seater, Male & Female",
-                                    pickupTime: "9:30 AM",
-                                    departureTime: "10:00 AM",
-                                    driverPhone: "+123456789",
-                                    isKycVerified: true,
-                                    malePassengers: 5,
-                                    femalePassengers: 3,
-                                    selectedCarIndex: selectedCarIndex,
-                                    available: 2,
-                                    onCardTap: (int index) {
+                                  // Initial View: Search bar and Add Home/Work options
+                                  GestureDetector(
+                                    onTap: () {
                                       setModalState(() {
-                                        selectedCarIndex =
-                                            selectedCarIndex == index
-                                                ? null
-                                                : index;
+                                        // Toggle to show car details
+                                        showCarDetails = true;
                                       });
                                     },
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    SearchScreen()));
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey[200],
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: const Row(
+                                          children: [
+                                            Icon(Icons.search),
+                                            SizedBox(width: 8),
+                                            Text(
+                                              'Search Drop Off',
+                                              style: TextStyle(fontSize: 16),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  CarCard(
-                                    index: 1,
-                                    carDetails: "10-Seater, Female Only",
-                                    pickupTime: "11:00 AM",
-                                    departureTime: "11:30 AM",
-                                    driverPhone: "+987654321",
-                                    isKycVerified: true,
-                                    malePassengers: 0,
-                                    femalePassengers: 7,
-                                    available: 3,
-                                    selectedCarIndex: selectedCarIndex,
-                                    onCardTap: (int index) {
-                                      setModalState(() {
-                                        selectedCarIndex =
-                                            selectedCarIndex == index
-                                                ? null
-                                                : index;
-                                      });
+                                  const SizedBox(height: 20),
+
+                                  // Add Home and Add Work options
+                                  ListTile(
+                                    leading: const Icon(Icons.home),
+                                    title: const Text('Home Address'),
+                                    subtitle: Text(homeAddress.isNotEmpty
+                                        ? homeAddress
+                                        : 'Your living home address'),
+                                    onTap: () {
+                                      _showAddressOptionsDialog(
+                                          context, 'home');
+                                    },
+                                  ),
+                                  const Divider(),
+                                  ListTile(
+                                    leading: const Icon(Icons.work),
+                                    title: const Text('Work Address'),
+                                    subtitle: Text(workAddress.isNotEmpty
+                                        ? workAddress
+                                        : 'Your office address'),
+                                    onTap: () {
+                                      _showAddressOptionsDialog(
+                                          context, 'work');
                                     },
                                   ),
                                 ],
@@ -346,6 +324,95 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           },
+        );
+      },
+    );
+  }
+
+  void _showAddressOptionsDialog(BuildContext context, String addressType) {
+    String address = addressType == 'home' ? 'Home Address' : 'Work Address';
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('$address Options'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  // Navigate to the search screen and set this address as drop-off location
+                  Navigator.pop(context); // Close the dialog
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchScreen(
+                        initialDropOffLocation:
+                            address, // Pass the address to search screen
+                      ),
+                    ),
+                  );
+                },
+                child: const Text('Set Drop-Off Location'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle the logic to change the address
+                  Navigator.pop(context); // Close the dialog
+                  // Implement address change logic here (e.g., show another dialog for input)
+                  _showChangeAddressDialog(context, addressType);
+                },
+                child: Text('Change $address'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _showChangeAddressDialog(BuildContext context, String addressType) {
+    TextEditingController addressController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:
+              Text('Change ${addressType == 'home' ? 'Home' : 'Work'} Address'),
+          content: TextField(
+            controller: addressController,
+            decoration: InputDecoration(
+              hintText:
+                  'Enter new ${addressType == 'home' ? 'home' : 'work'} address',
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close dialog without saving
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Update the address state here (you might need to handle this with a state management solution)
+                setState(() {
+                  if (addressType == 'home') {
+                    // Save the new home address (e.g., to a variable or to persistent storage)
+                    homeAddress = addressController.text;
+                  } else {
+                    // Save the new work address
+                    workAddress = addressController.text;
+                  }
+                });
+
+                Navigator.pop(context); // Close the dialog
+              },
+              child: const Text('Save'),
+            ),
+          ],
         );
       },
     );
