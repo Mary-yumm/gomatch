@@ -10,6 +10,7 @@ import 'package:gomatch/utils/colors.dart';
 import 'package:gomatch/components/home_screen/car_card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:gomatch/configMaps.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String idScreen = "HomeScreen";
@@ -116,7 +117,8 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       body: Stack(
         children: [
-          GoogleMap(
+          mapKey.isNotEmpty
+          ?GoogleMap(
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
             initialCameraPosition: _kGooglePlex,
@@ -132,6 +134,9 @@ class _HomeScreenState extends State<HomeScreen> {
               //for user's current loc
               locatePosition();
             },
+          )
+          : const Center(
+            child: Text('Google Maps is disabled'),
           ),
 
           AnimatedPositioned(
